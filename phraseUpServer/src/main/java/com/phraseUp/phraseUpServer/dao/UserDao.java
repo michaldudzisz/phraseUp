@@ -1,0 +1,29 @@
+package com.phraseUp.phraseUpServer.dao;
+
+import com.phraseUp.phraseUpServer.model.User;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserDao {
+	/**
+	 * @param id unique id of user
+	 * @param user user that is to be added to database
+	 * @return true if adding has been done right, otherwise false
+	 */
+	boolean insertUser(UUID id, User user);
+
+	default boolean insertUser(User user) {
+		UUID id = UUID.randomUUID(); // CHANGE this somehow later !!!
+		return insertUser(id, user);
+	}
+
+	boolean deleteUserById(UUID id);
+
+	boolean updateUserById(UUID id, User user);
+
+	Optional<User> selectUserById(UUID id);
+
+	List<User> selectAllUsers();
+}
