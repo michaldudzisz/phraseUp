@@ -15,7 +15,7 @@ public class UserDataAccessService implements UserDao {
 
 	@Override
 	public boolean insertUser(UUID id, User user) {
-		DB.add(new User(id, user.getName()));
+		DB.add(new User(id, user.getName())); // niepotrzebnie jakoś to się dzieje
 		System.out.println(user.getName());
 		return true;
 	}
