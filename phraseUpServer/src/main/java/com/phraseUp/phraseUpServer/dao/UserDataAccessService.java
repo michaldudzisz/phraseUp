@@ -1,57 +1,60 @@
 package com.phraseUp.phraseUpServer.dao;
 
 import com.phraseUp.phraseUpServer.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
+@Repository("userDao")
 public class UserDataAccessService implements UserDao {
 
-	private static List<User> DB = new ArrayList<>();
+	private final JdbcTemplate jdbcTemplate;
 
-	@Override
-	public boolean insertUser(UUID id, User user) {
-		DB.add(new User(id, user.getName())); // niepotrzebnie jakoś to się dzieje
-		System.out.println(user.getName());
-		return true;
+	@Autowired
+	public UserDataAccessService(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
-	public List<User> selectAllUsers() {
-		return DB;
+	public int insertUser(UUID id, User user) {
+		final String sql = "INSERT INTO users (id, name) VALUES (?, ?);";
+		return jdbcTemplate.update(sql, id, user.getName());
+	}
+
+	@Override
+	public int deleteUserById(UUID id) {
+		final String sql = "DELETE FROM users WHERE id = ?;";
+		return jdbcTemplate.update(sql, id);
+	}
+
+	@Override
+	public int updateUserById(UUID id, User user) {
+		final String sql = "UPDATE users SET id = ?, name = ? WHERE id = ?";
+		return jdbcTemplate.update(sql, user.getId(), user.getName(), id);
 	}
 
 	@Override
 	public Optional<User> selectUserById(UUID id) {
-		return DB.stream().filter(user -> user.getId().equals(id)).findFirst();
+		final String sql = "SELECT id, name FROM users WHERE id = ?";
+		User user = jdbcTemplate.queryForObject(sql, new Object[]{id}, ((resultSet, i) -> {
+					UUID userId = UUID.fromString(resultSet.getString("id"));
+					String name = resultSet.getString("name");
+					return new User(userId, name);
+				}));
+		return Optional.ofNullable(user);
 	}
 
 	@Override
-	public boolean deleteUserById(UUID id) {
-		Optional<User> userMaybe = selectUserById(id);
-		if (userMaybe.isEmpty())
-			return false; // jakoś to obsłużyć
-		DB.remove(userMaybe.get());
-		return true;
-	}
-
-	@Override
-	public boolean updateUserById(UUID id, User updatedUser) {
-		Optional<User> userMaybe = selectUserById(id);
-		if (userMaybe.isEmpty())
-			return false;
-
-		userMaybe.map(user -> {
-			int indexOfUserToUpdate = DB.indexOf(user);
-			DB.set(indexOfUserToUpdate, new User(id, updatedUser.getName()));
-			return null;
+	public List<User> selectAllUsers() {
+		String sql = "SELECT id, name FROM users;";
+		return jdbcTemplate.query(sql, (resultSet, i) -> {
+			UUID id = UUID.fromString(resultSet.getString("id"));
+			String name = resultSet.getString("name");
+			return new User(id, name);
 		});
-
-		return true;
 	}
-
 }

@@ -20,7 +20,7 @@ public class UserService {
 		this.userDao = userDao;
 	}
 
-	public boolean addUser(User user) {
+	public int addUser(User user) {
 		return userDao.insertUser(user);
 	}
 
@@ -32,11 +32,11 @@ public class UserService {
 		return userDao.selectUserById(id);
 	}
 
-	public boolean updateUser(UUID id, User user) {
+	public int updateUser(UUID id, User user) {
 		return userDao.updateUserById(id, user);
 	}
 
-	public boolean deleteUser(UUID id) {
+	public int deleteUser(UUID id) {
 		return userDao.deleteUserById(id);
 	}
 }

@@ -12,16 +12,16 @@ public interface UserDao {
 	 * @param user user that is to be added to database
 	 * @return true if adding has been done right, otherwise false
 	 */
-	boolean insertUser(UUID id, User user);
+	int insertUser(UUID id, User user);
 
-	default boolean insertUser(User user) {
+	default int insertUser(User user) {
 		UUID id = UUID.randomUUID(); // CHANGE this somehow later !!!
 		return insertUser(id, user);
 	}
 
-	boolean deleteUserById(UUID id);
+	int deleteUserById(UUID id);
 
-	boolean updateUserById(UUID id, User user);
+	int updateUserById(UUID id, User user);
 
 	Optional<User> selectUserById(UUID id);
 
