@@ -1,6 +1,6 @@
 app:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5432/postgresDB
+    jdbc-url: jdbc:postgresql://localhost:5432/phraseupdb
     username: postgres
     password: password
     pool-size: 30

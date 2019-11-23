@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("userDao")
+
 public class UserDataAccessService implements UserDao {
 
 	private static List<User> DB = new ArrayList<>();
