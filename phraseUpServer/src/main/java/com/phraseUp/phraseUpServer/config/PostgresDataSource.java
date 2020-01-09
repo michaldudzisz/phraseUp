@@ -1,4 +1,4 @@
-package com.phraseUp.phraseUpServer.datasource;
+package com.phraseUp.phraseUpServer.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class postgresDatasource {
+public class PostgresDataSource {
 
 	@Bean
 	@ConfigurationProperties("app.datasource")
