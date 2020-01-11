@@ -44,10 +44,14 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
 	@Override
 	public void handleFrame(StompHeaders headers, Object payload) {
 		Message msg = (Message) payload;
-		logger.info("Received : " + msg.getText() + " from : " + msg.getFrom());
+		logger.info("Received : " + msg.getText() + " from : " + msg.getFrom() + " so now I will display it...");
+
+		ChatSceneController.messagesStored.add(msg);
 	}
 
-	public void sendMessage(Message msg) {
+	// fajny kolor:  #64d165
+
+	void sendMessage(Message msg) {
 		session.send("/app/chat.sendMessage", msg);
 	}
 }

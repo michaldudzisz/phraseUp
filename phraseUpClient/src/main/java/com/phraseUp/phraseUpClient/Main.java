@@ -1,5 +1,6 @@
 package com.phraseUp.phraseUpClient;
 
+import com.phraseUp.phraseUpClient.controller.ChatSceneController;
 import com.phraseUp.phraseUpClient.controller.MainWindowController;
 import com.phraseUp.phraseUpClient.controller.StartSceneController;
 import com.phraseUp.phraseUpClient.controller.MyStompSessionHandler;
@@ -48,7 +49,7 @@ public class Main extends Application {
 		MyStompSessionHandler sessionHandler = new MyStompSessionHandler();
 		stompClient.connect(URL, sessionHandler);
 
-		StartSceneController.SessionHandler = sessionHandler;
+		ChatSceneController.SessionHandler = sessionHandler;
 		//javafx, ale trzeba to zrobić inaczej, cóż, na razie tak
 		Application.launch(args);
 	}
