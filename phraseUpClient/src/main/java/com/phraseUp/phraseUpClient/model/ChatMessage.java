@@ -1,6 +1,6 @@
 package com.phraseUp.phraseUpClient.model;
 
-public class Message {
+public class ChatMessage {
 
 	private String from;
 	private String text;

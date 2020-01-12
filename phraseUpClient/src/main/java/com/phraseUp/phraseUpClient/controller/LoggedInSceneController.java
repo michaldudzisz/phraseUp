@@ -3,7 +3,6 @@ package com.phraseUp.phraseUpClient.controller;
 import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -21,7 +20,7 @@ public class LoggedInSceneController {
 
 	@FXML
 	public void initialize() {
-		usernameLabel.setText(user.getName());
+		usernameLabel.setText(user.getUsername());
 	}
 
 	public void startNewChatButtonHandler() throws IOException {

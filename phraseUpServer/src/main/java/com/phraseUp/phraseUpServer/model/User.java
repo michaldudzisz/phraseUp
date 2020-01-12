@@ -9,12 +9,12 @@ public class User {
 
 	private final UUID id;
 	@NotBlank
-	private final String name;
+	private final String username;
 
 	public User(@JsonProperty("id") UUID id, @JsonProperty("name") String name) {
 
 		this.id = id;
-		this.name = name;
+		this.username = name;
 		System.out.println("mam id: " +  id); // -> dwa razy się to tworzy niepotrzebnie
 	}
 
@@ -22,7 +22,7 @@ public class User {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 }

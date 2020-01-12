@@ -1,5 +1,6 @@
 package com.phraseUp.phraseUpServer.api;
 
+import com.phraseUp.phraseUpServer.model.LogInData;
 import com.phraseUp.phraseUpServer.model.User;
 import com.phraseUp.phraseUpServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class UserController {
 	}
 
 	@PostMapping
-	public void addUser(@Valid @NonNull @RequestBody User user) {
-		userService.addUser(user);
+	public void addUser(@Valid @NonNull @RequestBody LogInData log) {
+		userService.addUser(log);
 	}
 
 	@GetMapping

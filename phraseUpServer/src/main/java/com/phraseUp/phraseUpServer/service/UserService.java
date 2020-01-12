@@ -1,6 +1,6 @@
 package com.phraseUp.phraseUpServer.service;
 
-import com.phraseUp.phraseUpServer.dao.UserDao;
+import com.phraseUp.phraseUpServer.model.LogInData;
 import com.phraseUp.phraseUpServer.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,12 +20,16 @@ public class UserService {
 		this.userDao = userDao;
 	}
 
-	public int addUser(User user) {
-		return userDao.insertUser(user);
+	public int addUser(LogInData log) {
+		return userDao.insertUser(log);
 	}
 
 	public List<User> getAllUsers() {
 		return userDao.selectAllUsers();
+	}
+
+	public Optional<User> getUserByUsername(String username) {
+		return userDao.selectUserByUsername(username);
 	}
 
 	public Optional<User> getUserById(UUID id) {

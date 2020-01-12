@@ -54,11 +54,33 @@
                         </VBox>
                      </children>
                   </HBox>
+                  <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Text>
                   <Button mnemonicParsing="false" onAction="#LogInButtonHandler" style="-fx-background-color: #2ab034;" text="Log In" textFill="WHITE">
                      <VBox.margin>
-                        <Insets bottom="10.0" top="20.0" />
+                        <Insets bottom="10.0" top="5.0" />
                      </VBox.margin>
                   </Button>
+                  <HBox alignment="CENTER" prefHeight="37.0" prefWidth="364.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account yet? ">
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Button mnemonicParsing="false" onAction="#createAccButtonHandler" style="-fx-background-color: #2ab034;" text="Click to create" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets left="2.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
             </VBox>
          </children>

@@ -1,36 +1,99 @@
 package com.phraseUp.phraseUpClient.controller;
 
-import com.phraseUp.phraseUpClient.model.Message;
+import com.phraseUp.phraseUpClient.model.ChatMessage;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.io.IOException;
-import java.util.List;
+import java.lang.reflect.Type;
 
 public class ChatSceneController {
 
-	public static MyStompSessionHandler SessionHandler;
+	/**
+	 * This class is an implementation for <code>StompSessionHandlerAdapter</code>.
+	 */
+
+	public class MyStompSessionHandler extends StompSessionHandlerAdapter {
+
+		final String URL = "ws://localhost:8091/ws";
+		private Logger logger = LogManager.getLogger(com.phraseUp.phraseUpClient.controller.ChatSceneController.class);
+		private StompSession session;
+
+		@Override
+		public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+			this.session = session;
+
+			logger.info("New session established : " + session.getSessionId());
+			session.subscribe("/topic/public", this);
+			logger.info("Subscribed to /topic/public");
+		}
+
+		@Override
+		public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
+			logger.error("Got an exception", exception);
+		}
+
+		@Override
+		public Type getPayloadType(StompHeaders headers) {
+			return ChatMessage.class;
+		}
+
+		@Override
+		public void handleFrame(StompHeaders headers, Object payload) {
+			ChatMessage msg = (ChatMessage) payload;
+			logger.info("Received : " + msg.getText() + " from : " + msg.getFrom() + ". Displaying it...");
+			messageStored = msg;
+			ChatSceneController.this.refreshChatView();
+		}
+
+		void sendMessage(ChatMessage msg) {
+			session.send("/app/chat.sendMessage", msg);
+		}
+	}
+
+	private static MyStompSessionHandler sessionHandler;
 	private static final String fxmlFileName = "/fxml/ChatScene.fxml";
-	static List<Message> messagesStored;
+	private static ChatMessage messageStored;
 
 	@FXML
 	public TextArea messageInput;
 
 	@FXML
-	public Label messagesLabel;
+	public Text messagesText;
 
 	static String getFxmlFileName() {
 		return fxmlFileName;
 	}
 
+	public void initialize() {
+		WebSocketClient client = new StandardWebSocketClient();
+		WebSocketStompClient stompClient = new WebSocketStompClient(client);
+
+		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+
+		sessionHandler = new MyStompSessionHandler();
+
+		stompClient.connect(sessionHandler.URL, sessionHandler);
+	}
+
 	public void sendButtonHandler() {
 		System.out.println("lol, wysyłam");
 
-		Message msg = new Message();
+		ChatMessage msg = new ChatMessage();
 		msg.setFrom("Michałucha");
 		msg.setText(messageInput.getText());
-		SessionHandler.sendMessage(msg);
+		sessionHandler.sendMessage(msg);
 		messageInput.clear();
 	}
 
@@ -42,5 +105,11 @@ public class ChatSceneController {
 	public void goBackButtonHandler() throws IOException {
 		System.out.println("Moving back...");
 		MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
+	}
+
+	private void refreshChatView() {
+		System.out.print("Refreshing chat view...");
+		messagesText.setText(messagesText.getText() + System.lineSeparator() + messageStored.getFrom() + ": "
+				+ messageStored.getText());
 	}
 }
