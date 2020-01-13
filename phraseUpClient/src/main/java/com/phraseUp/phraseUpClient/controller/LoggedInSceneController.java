@@ -11,7 +11,6 @@ import java.io.IOException;
 public class LoggedInSceneController {
 
 	private static final String fxmlFileName = "/fxml/LoggedInScene.fxml";
-	private static LogInData log;
 	private static User user;
 
 	@FXML
@@ -21,14 +20,13 @@ public class LoggedInSceneController {
 		return fxmlFileName;
 	}
 
-	@FXML
-	public void initialize() {
-		user = HttpRequestController.getUserInfo(log);
-		usernameLabel.setText(user.getUsername());
+	static void setUser(User usr) {
+		user = usr;
 	}
 
-	static void setLog(String username, String password) {
-		log = new LogInData(username, password);
+	@FXML
+	public void initialize() {
+		usernameLabel.setText(user.getUsername());
 	}
 
 	public void startNewChatButtonHandler() throws IOException {

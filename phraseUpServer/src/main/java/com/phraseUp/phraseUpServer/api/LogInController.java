@@ -2,6 +2,7 @@ package com.phraseUp.phraseUpServer.api;
 
 
 import com.phraseUp.phraseUpServer.model.LogInData;
+import com.phraseUp.phraseUpServer.model.User;
 import com.phraseUp.phraseUpServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -29,14 +30,14 @@ public class LogInController {
 	}
 
 	@PostMapping("/register")
-	public Boolean registerRequestHandler(@Valid @NonNull @RequestBody LogInData log) {
-		String username = log.getUsername();
-		String password = log.getPassword();
+	public Boolean registerRequestHandler(@Valid @NonNull @RequestBody User user) {
+		String username = user.getUsername();
+		String password = user.getPassword();
 		System.out.println("Creating user... Username: " + username + ", password: " + password);
 
 		if (userService.getUserByUsername(username).isPresent())
 			return false;
-		userService.addUser(log);
+		userService.addUser(user);
 		return true;
 	}
 }

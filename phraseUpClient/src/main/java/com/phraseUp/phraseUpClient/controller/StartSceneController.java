@@ -28,21 +28,11 @@ public class StartSceneController {
 		return fxmlFileName;
 	}
 
-	private Boolean sendLogInRequest(LogInData log) {
-		final String url = "http://localhost:8091/phraseup/login";
-
-		Boolean ifLogged = new RestTemplate().postForObject(url, log, Boolean.class);
-
-		System.out.println("Logged successfully: " + ifLogged);
-		return ifLogged;
-	}
-
 	public void LogInButtonHandler() throws IOException {
-		String username = loginInput.getText();
-		System.out.println("Reading - login: " + username + ", password: " + passwordInput.getText());
+		LogInData log = new LogInData(loginInput.getText(), passwordInput.getText());
 
-		if (sendLogInRequest(new LogInData(loginInput.getText(), passwordInput.getText()))) {
-			LoggedInSceneController.setLog(loginInput.getText(), passwordInput.getText());
+		if (HttpRequestController.sendLogInRequest(log)) {
+			LoggedInSceneController.setUser(HttpRequestController.getUserInfo(log));
 			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
 		}
 		else

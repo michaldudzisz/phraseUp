@@ -1,34 +1,29 @@
 package com.phraseUp.phraseUpClient.model;
 
-import javax.validation.constraints.NotBlank;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-	private UUID id;
-	@NotBlank
-	private String username;
 
-	public User() {
+	private final String username;
+	private final String password;
+	private final Language language;
+
+	public User(@JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("language") Language language) {
+		this.username = username;
+		this.password = password;
+		this.language = language;
 	}
 
-	public User(UUID id, String name) {
-		this.id = id;
-		this.username = name;
-	}
-
-	public UUID getId() {
-		return id;
+	public Language getLanguage() {
+		return language;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
 }

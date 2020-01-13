@@ -45,14 +45,14 @@
          <children>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="519.0" prefWidth="131.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="TOP_CENTER" prefHeight="519.0" prefWidth="86.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Help others! Join your mother tongue conversation." textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="20.0" left="14.0" right="14.0" top="36.0" />
                            </VBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="Button" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#startNewChatButtonHandler" style="-fx-background-color: #2ab034;" text="I do chat" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="12.0" />
                            </VBox.margin>
@@ -66,17 +66,17 @@
                               <Insets bottom="20.0" left="14.0" right="14.0" top="36.0" />
                            </VBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="Button" textFill="WHITE">
+                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="I do nothing yet" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="Button" textFill="WHITE">
+                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="I do nothing yet" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="I don't want to speak" textFill="WHITE">
+                        <Button mnemonicParsing="false" style="-fx-background-color: #2ab034;" text="I do nothing yet" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>

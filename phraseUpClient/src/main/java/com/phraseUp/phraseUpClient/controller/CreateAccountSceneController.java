@@ -1,10 +1,10 @@
 package com.phraseUp.phraseUpClient.controller;
 
-import com.phraseUp.phraseUpClient.model.LogInData;
+import com.phraseUp.phraseUpClient.model.Language;
+import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -26,17 +26,7 @@ public class CreateAccountSceneController {
 	}
 
 	public void goBackButtonHandler() throws IOException {
-		System.out.println("Moving back...");
 		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
-	}
-
-	private Boolean sendAccountCreateRequest(LogInData log) {
-		final String url = "http://localhost:8091/phraseup/login/register";
-
-		Boolean ifLogged = new RestTemplate().postForObject(url, log, Boolean.class);
-
-		System.out.println("Logged successfully: " + ifLogged);
-		return ifLogged;
 	}
 
 	public void createAccButtonHandler() throws IOException {
@@ -52,8 +42,9 @@ public class CreateAccountSceneController {
 		}
 
 		password = passwordInput.getText();
-		if (sendAccountCreateRequest(new LogInData(username, password))) {
-			LoggedInSceneController.setLog(usernameInput.getText(), passwordInput.getText());
+		User user = new User(username, password, Language.POLISH);
+		if (HttpRequestController.sendAccountCreateRequest(user)) {
+			LoggedInSceneController.setUser(user);
 			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
 		} else {
 			errorText.setText("Couldn't create an account. Probably there already exists account with that username.");

@@ -90,7 +90,7 @@ public class ChatSceneController {
 	}
 
 	public void sendButtonHandler() {
-		System.out.println("lol, wysyłam");
+		System.out.println("wysyłam");
 
 		ChatMessage msg = new ChatMessage();
 		msg.setFrom(user.getUsername());

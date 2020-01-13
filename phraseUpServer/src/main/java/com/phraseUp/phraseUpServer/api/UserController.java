@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping("phraseup/users")
 @RestController
@@ -23,8 +22,8 @@ public class UserController {
 	}
 
 	@PostMapping
-	public void addUser(@Valid @NonNull @RequestBody LogInData log) {
-		userService.addUser(log);
+	public void addUser(@Valid @NonNull @RequestBody User user) {
+		userService.addUser(user);
 	}
 
 	@PostMapping("/get-user-by-username")
@@ -40,7 +39,7 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 
-	@GetMapping(path = "{id}")
+	/*@GetMapping(path = "{username}")
 	public User getUserById(@PathVariable("id") UUID id) {
 		return userService.getUserById(id).orElse(null); // O TU można wyjątek(404)
 	}
@@ -53,5 +52,5 @@ public class UserController {
 	@DeleteMapping(path = "{id}")
 	public void deleteUser(@PathVariable("id") UUID id) {
 		userService.deleteUser(id);
-	}
+	}*/
 }

@@ -1,5 +1,6 @@
 package com.phraseUp.phraseUpServer.service;
 
+import com.phraseUp.phraseUpServer.model.Language;
 import com.phraseUp.phraseUpServer.model.LogInData;
 import com.phraseUp.phraseUpServer.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository("userDao")
 public class UserDataAccessService implements UserDao {
@@ -22,33 +22,34 @@ public class UserDataAccessService implements UserDao {
 	}
 
 	@Override
-	public int insertUser(UUID id, LogInData log) {
-		final String sql = "INSERT INTO users (id, username, password) VALUES (?, ?, ?);";
-		return jdbcTemplate.update(sql, id, log.getUsername(), log.getPassword());
+	public int insertUser(User user) {
+		final String sql = "INSERT INTO users (username, password, language) VALUES (?, ?, ?);";
+		return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getLanguage().toString());
 	}
 
 	@Override
-	public int deleteUserById(UUID id) {
-		final String sql = "DELETE FROM users WHERE id = ?;";
-		return jdbcTemplate.update(sql, id);
+	public int deleteUserByUsername(String username) {
+		final String sql = "DELETE FROM users WHERE username = ?;";
+		return jdbcTemplate.update(sql, username);
 	}
 
 	@Override
-	public int updateUserById(UUID id, User user) {
-		final String sql = "UPDATE users SET id = ?, username = ? WHERE id = ?";
-		return jdbcTemplate.update(sql, user.getId(), user.getUsername(), id);
+	public int updateUserByUsername(String username, User user) {
+		final String sql = "UPDATE users SET username = ?, password = ? WHERE username = ?";
+		return jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), username);
 	}
 
 	@Override
 	public Optional<User> selectUserByUsername(String username) {
-		final String sql = "SELECT id, username FROM users WHERE username = ?";
+		final String sql = "SELECT * FROM users WHERE username = ?";
 
 		User user = null;
 		try {
 			user = jdbcTemplate.queryForObject(sql, new Object[]{username}, (((resultSet, i) -> {
-				UUID userId = UUID.fromString(resultSet.getString("id"));
 				String name = resultSet.getString("username");
-				return new User(userId, name);
+				String password = resultSet.getString("password");
+				Language language = Language.fromString(resultSet.getString("language"));
+				return new User(name, password, language);
 			})));
 		} catch (EmptyResultDataAccessException ignored) {
 		}
@@ -56,29 +57,13 @@ public class UserDataAccessService implements UserDao {
 	}
 
 	@Override
-	public Optional<User> selectUserById(UUID id) {
-		final String sql = "SELECT id, username FROM users WHERE id = ?";
-
-		User user = null;
-		try {
-			user = jdbcTemplate.queryForObject(sql, new Object[]{id}, ((resultSet, i) -> {
-				UUID userId = UUID.fromString(resultSet.getString("id"));
-				String name = resultSet.getString("username");
-				return new User(userId, name);
-			}));
-		} catch (EmptyResultDataAccessException e) {
-			System.out.println(e.getMessage());
-		}
-		return Optional.ofNullable(user);
-	}
-
-	@Override
 	public List<User> selectAllUsers() {
-		String sql = "SELECT id, username FROM users;";
+		String sql = "SELECT * FROM users;";
 		return jdbcTemplate.query(sql, (resultSet, i) -> {
-			UUID id = UUID.fromString(resultSet.getString("id"));
 			String name = resultSet.getString("username");
-			return new User(id, name);
+			String password = resultSet.getString("password");
+			Language language = Language.fromString(resultSet.getString("language"));
+			return new User(name, password, language);
 		});
 	}
 

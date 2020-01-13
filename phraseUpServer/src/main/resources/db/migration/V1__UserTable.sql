@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id UUID NOT NULL PRIMARY KEY,
-    username VARCHAR(40) NOT NULL,
-    password VARCHAR(40) NOT NULL
+    username VARCHAR(40) NOT NULL PRIMARY KEY,
+    password VARCHAR(40) NOT NULL,
+    language VARCHAR(40) NOT NULL
 );

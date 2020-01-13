@@ -3,26 +3,29 @@ package com.phraseUp.phraseUpServer.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 public class User {
 
-	private final UUID id;
 	@NotBlank
 	private final String username;
+	@NotBlank
+	private final String password;
+	private final Language language;
 
-	public User(@JsonProperty("id") UUID id, @JsonProperty("name") String name) {
+	public User(@JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("language") Language language) {
 
-		this.id = id;
-		this.username = name;
-		System.out.println("mam id: " +  id); // -> dwa razy się to tworzy niepotrzebnie
-	}
-
-	public UUID getId() {
-		return id;
+		this.username = username;
+		this.password = password;
+		this.language = language;
 	}
 
 	public String getUsername() {
 		return username;
+	}
+	public Language getLanguage() {
+		return language;
+	}
+	public String getPassword() {
+		return password;
 	}
 }
