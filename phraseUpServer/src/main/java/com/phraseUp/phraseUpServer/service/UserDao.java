@@ -29,4 +29,6 @@ public interface UserDao {
 	Optional<User> selectUserByUsername(String username);
 
 	List<User> selectAllUsers();
+
+	Boolean checkLogs(LogInData log);
 }

@@ -25,20 +25,16 @@ public class LogInController {
 
 	@PostMapping
 	public Boolean logInRequestHandler(@Valid @NonNull @RequestBody LogInData log) {
-		String username = log.getUsername();
-		String password = log.getPassword();
-		System.out.println("username: " + username + ", password: " + password);
-
-		return username.equals("Michałucha") && password.equals("wDupieTrzasło");
+		return userService.checkLogs(log);
 	}
 
 	@PostMapping("/register")
-	public Boolean registerNewUser(@Valid @NonNull @RequestBody LogInData log) {
+	public Boolean registerRequestHandler(@Valid @NonNull @RequestBody LogInData log) {
 		String username = log.getUsername();
 		String password = log.getPassword();
 		System.out.println("Creating user... Username: " + username + ", password: " + password);
 
-		if (userService.getUserByUsername(username).isEmpty())
+		if (userService.getUserByUsername(username).isPresent())
 			return false;
 		userService.addUser(log);
 		return true;

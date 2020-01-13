@@ -1,6 +1,3 @@
+com/phraseUp/phraseUpClient/config/SpringConfiguration.class
 com/phraseUp/phraseUpClient/Main.class
 com/phraseUp/phraseUpClient/controller/MainWindowController.class
-com/phraseUp/phraseUpClient/controller/MyStompSessionHandler.class
-com/phraseUp/phraseUpClient/config/WebSocketClientConfig.class
-com/phraseUp/phraseUpClient/config/SpringConfiguration.class
-com/phraseUp/phraseUpClient/model/Message.class

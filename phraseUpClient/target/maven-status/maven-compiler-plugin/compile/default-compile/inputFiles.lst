@@ -1,3 +1,11 @@
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/LoggedInSceneController.java
 /home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/MainWindowController.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/model/User.java
 /home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/config/SpringConfiguration.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/CreateAccountSceneController.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/HttpRequestController.java
 /home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/Main.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/StartSceneController.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/model/ChatMessage.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/model/LogInData.java
+/home/michal/IdeaProjects/phraseUp/phraseUpClient/src/main/java/com/phraseUp/phraseUpClient/controller/ChatSceneController.java

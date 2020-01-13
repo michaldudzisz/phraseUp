@@ -3,6 +3,7 @@ package com.phraseUp.phraseUpServer.service;
 import com.phraseUp.phraseUpServer.model.LogInData;
 import com.phraseUp.phraseUpServer.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -41,30 +42,34 @@ public class UserDataAccessService implements UserDao {
 	@Override
 	public Optional<User> selectUserByUsername(String username) {
 		final String sql = "SELECT id, username FROM users WHERE username = ?";
-		User user = jdbcTemplate.queryForObject(sql, new Object[]{username}, (((resultSet, i) -> {
-			UUID userId = UUID.fromString(resultSet.getString("id"));
-			String name = resultSet.getString("username");
-			return new User(userId, name);
-		})));
+
+		User user = null;
+		try {
+			user = jdbcTemplate.queryForObject(sql, new Object[]{username}, (((resultSet, i) -> {
+				UUID userId = UUID.fromString(resultSet.getString("id"));
+				String name = resultSet.getString("username");
+				return new User(userId, name);
+			})));
+		} catch (EmptyResultDataAccessException ignored) {
+		}
 		return Optional.ofNullable(user);
 	}
 
 	@Override
 	public Optional<User> selectUserById(UUID id) {
 		final String sql = "SELECT id, username FROM users WHERE id = ?";
-		List<User> result = jdbcTemplate.query(sql, new Object[]{id}, ((resultSet, i) -> {
-					UUID userId = UUID.fromString(resultSet.getString("id"));
-					String name = resultSet.getString("username");
-					return new User(userId, name);
-				}));
-		if (result.size() == 1)
-			return Optional.ofNullable(result.get(0));
-		else
-			return Optional.ofNullable(null); //działa, ale brzydkie. Można by w sumie łapać ten wyjątek, albo jeszcze poszukać innych metod
-		// https://javarevisited.blogspot.com/2016/10/how-to-check-if-resultset-is-empty-in-Java-JDBC.html
-		// http://zetcode.com/db/jdbctemplate/#qfo
-		// https://mkyong.com/spring/queryforobject-throws-emptyresultdataaccessexception-when-record-not-found/
-		// ^ tu piszą, żeby złapać i samemu zwrócić nulla xd
+
+		User user = null;
+		try {
+			user = jdbcTemplate.queryForObject(sql, new Object[]{id}, ((resultSet, i) -> {
+				UUID userId = UUID.fromString(resultSet.getString("id"));
+				String name = resultSet.getString("username");
+				return new User(userId, name);
+			}));
+		} catch (EmptyResultDataAccessException e) {
+			System.out.println(e.getMessage());
+		}
+		return Optional.ofNullable(user);
 	}
 
 	@Override
@@ -75,5 +80,21 @@ public class UserDataAccessService implements UserDao {
 			String name = resultSet.getString("username");
 			return new User(id, name);
 		});
+	}
+
+	@Override
+	public Boolean checkLogs(LogInData log) {
+		final String sql = "SELECT username, password FROM users WHERE username = ? AND password = ?";
+		String username = log.getUsername();
+		String password = log.getPassword();
+
+		List<LogInData> correspondingLogs = jdbcTemplate.query(sql, new Object[]{username, password},
+				(resultSet, i) -> {
+					String tmpUsername = resultSet.getString("username");
+					String tmpPassword = resultSet.getString("password");
+					return new LogInData(tmpUsername, tmpPassword);
+				});
+
+		return !correspondingLogs.isEmpty();
 	}
 }

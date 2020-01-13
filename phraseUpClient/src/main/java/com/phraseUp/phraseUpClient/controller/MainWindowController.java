@@ -9,12 +9,10 @@ import java.io.IOException;
 
 public class MainWindowController {
 	private static Stage stage;
-	private static Parent rootNode;
 
 	public static void start(Stage stg, Parent root) {
-		rootNode = root;
 		stage = stg;
-		stage.setScene(new Scene(rootNode));
+		stage.setScene(new Scene(root));
 		stage.setTitle("Phrase Up!");
 		stage.show();
 	}

@@ -52,9 +52,10 @@ public class CreateAccountSceneController {
 		}
 
 		password = passwordInput.getText();
-		if (sendAccountCreateRequest(new LogInData(username, password)))
+		if (sendAccountCreateRequest(new LogInData(username, password))) {
+			LoggedInSceneController.setLog(usernameInput.getText(), passwordInput.getText());
 			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
-		else {
+		} else {
 			errorText.setText("Couldn't create an account. Probably there already exists account with that username.");
 			usernameInput.clear();
 			passwordInput.clear();

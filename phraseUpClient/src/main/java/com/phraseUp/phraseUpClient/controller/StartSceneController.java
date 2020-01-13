@@ -38,11 +38,13 @@ public class StartSceneController {
 	}
 
 	public void LogInButtonHandler() throws IOException {
-		System.out.println("Reading - login: " + loginInput.getText() + ", password: " + passwordInput.getText());
-		LoggedInSceneController.user = new User(UUID.randomUUID(), loginInput.getText());
+		String username = loginInput.getText();
+		System.out.println("Reading - login: " + username + ", password: " + passwordInput.getText());
 
-		if (sendLogInRequest(new LogInData(loginInput.getText(), passwordInput.getText())))
+		if (sendLogInRequest(new LogInData(loginInput.getText(), passwordInput.getText()))) {
+			LoggedInSceneController.setLog(loginInput.getText(), passwordInput.getText());
 			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
+		}
 		else
 			errorText.setText("Wrong username or password.");
 

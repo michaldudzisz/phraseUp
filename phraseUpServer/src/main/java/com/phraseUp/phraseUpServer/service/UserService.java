@@ -43,4 +43,8 @@ public class UserService {
 	public int deleteUser(UUID id) {
 		return userDao.deleteUserById(id);
 	}
+
+	public Boolean checkLogs(LogInData log) {
+		return userDao.checkLogs(log);
+	}
 }

@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("api/v1/person")
+@RequestMapping("phraseup/users")
 @RestController
 public class UserController {
 
@@ -25,6 +25,14 @@ public class UserController {
 	@PostMapping
 	public void addUser(@Valid @NonNull @RequestBody LogInData log) {
 		userService.addUser(log);
+	}
+
+	@PostMapping("/get-user-by-username")
+	public User getUserByUsername(@Valid @NonNull @RequestBody LogInData log) {
+		if (userService.checkLogs(log))
+			return userService.getUserByUsername(log.getUsername()).orElse(null);
+		else
+			return null;
 	}
 
 	@GetMapping

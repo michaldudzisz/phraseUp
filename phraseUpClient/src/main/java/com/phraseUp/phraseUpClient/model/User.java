@@ -4,9 +4,12 @@ import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class User {
-	private final UUID id;
+	private UUID id;
 	@NotBlank
-	private final String username;
+	private String username;
+
+	public User() {
+	}
 
 	public User(UUID id, String name) {
 		this.id = id;
@@ -19,5 +22,13 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

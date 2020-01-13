@@ -1,6 +1,7 @@
 package com.phraseUp.phraseUpClient.controller;
 
 import com.phraseUp.phraseUpClient.model.ChatMessage;
+import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -19,10 +20,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class ChatSceneController {
-
-	/**
-	 * This class is an implementation for <code>StompSessionHandlerAdapter</code>.
-	 */
 
 	public class MyStompSessionHandler extends StompSessionHandlerAdapter {
 
@@ -65,6 +62,7 @@ public class ChatSceneController {
 	private static MyStompSessionHandler sessionHandler;
 	private static final String fxmlFileName = "/fxml/ChatScene.fxml";
 	private static ChatMessage messageStored;
+	private static User user;
 
 	@FXML
 	public TextArea messageInput;
@@ -74,6 +72,10 @@ public class ChatSceneController {
 
 	static String getFxmlFileName() {
 		return fxmlFileName;
+	}
+
+	static void setUser(User usr) {
+		user = usr;
 	}
 
 	public void initialize() {
@@ -91,7 +93,7 @@ public class ChatSceneController {
 		System.out.println("lol, wysyłam");
 
 		ChatMessage msg = new ChatMessage();
-		msg.setFrom("Michałucha");
+		msg.setFrom(user.getUsername());
 		msg.setText(messageInput.getText());
 		sessionHandler.sendMessage(msg);
 		messageInput.clear();
@@ -109,7 +111,7 @@ public class ChatSceneController {
 
 	private void refreshChatView() {
 		System.out.print("Refreshing chat view...");
-		messagesText.setText(messagesText.getText() + System.lineSeparator() + messageStored.getFrom() + ": "
-				+ messageStored.getText());
+		messagesText.setText(messagesText.getText() + System.lineSeparator() + System.lineSeparator() +
+				messageStored.getFrom() + ": " + messageStored.getText());
 	}
 }
