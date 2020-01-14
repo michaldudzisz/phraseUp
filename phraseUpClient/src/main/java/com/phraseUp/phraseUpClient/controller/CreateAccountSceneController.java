@@ -3,6 +3,7 @@ package com.phraseUp.phraseUpClient.controller;
 import com.phraseUp.phraseUpClient.model.Language;
 import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -19,6 +20,8 @@ public class CreateAccountSceneController {
 	@FXML
 	public TextField passwordRepeatInput;
 	@FXML
+	public ChoiceBox<String> languageChoiceBox;
+	@FXML
 	public Text errorText;
 
 	static String getFxmlFileName() {
@@ -26,7 +29,13 @@ public class CreateAccountSceneController {
 	}
 
 	public void goBackButtonHandler() throws IOException {
-		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
+		MainWindowController.changeScene(StartSceneController.class, StartSceneController.getFxmlFileName());
+	}
+
+	public void initialize() {
+		for (Language lang : Language.values()) {
+			languageChoiceBox.getItems().add(lang.toString());
+		}
 	}
 
 	public void createAccButtonHandler() throws IOException {
@@ -40,12 +49,21 @@ public class CreateAccountSceneController {
 			passwordRepeatInput.clear();
 			return;
 		}
-
 		password = passwordInput.getText();
-		User user = new User(username, password, Language.POLISH);
+
+		if (languageChoiceBox.getSelectionModel().isEmpty()) {
+			errorText.setText("You have to select your language. Please try again.");
+			usernameInput.clear();
+			passwordInput.clear();
+			passwordRepeatInput.clear();
+			return;
+		}
+
+		Language lang = Language.fromString(languageChoiceBox.getValue());
+		User user = new User(username, password, lang);
 		if (HttpRequestController.sendAccountCreateRequest(user)) {
 			LoggedInSceneController.setUser(user);
-			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
+			MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
 		} else {
 			errorText.setText("Couldn't create an account. Probably there already exists account with that username.");
 			usernameInput.clear();

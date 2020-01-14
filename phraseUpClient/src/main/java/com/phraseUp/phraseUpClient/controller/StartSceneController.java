@@ -1,16 +1,12 @@
 package com.phraseUp.phraseUpClient.controller;
 
 import com.phraseUp.phraseUpClient.model.LogInData;
-import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 @Component
 public class StartSceneController {
@@ -33,9 +29,8 @@ public class StartSceneController {
 
 		if (HttpRequestController.sendLogInRequest(log)) {
 			LoggedInSceneController.setUser(HttpRequestController.getUserInfo(log));
-			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
-		}
-		else
+			MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
+		} else
 			errorText.setText("Wrong username or password.");
 
 		loginInput.clear();
@@ -43,6 +38,6 @@ public class StartSceneController {
 	}
 
 	public void createAccButtonHandler() throws IOException {
-		MainWindowController.changeScene(CreateAccountSceneController.getFxmlFileName());
+		MainWindowController.changeScene(CreateAccountSceneController.class, CreateAccountSceneController.getFxmlFileName());
 	}
 }

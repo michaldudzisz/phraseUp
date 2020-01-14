@@ -1,6 +1,5 @@
 package com.phraseUp.phraseUpServer.api;
 
-import com.phraseUp.phraseUpServer.model.ChatMessage;
 import com.phraseUp.phraseUpServer.model.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -9,22 +8,24 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@MessageMapping()
 public class ChatController {
 
-	@MessageMapping("/chat.sendMessage")
-	@SendTo("/topic/public")
-	public Message sendMessage(@Payload Message message) {
-		System.out.println("Message received: " + message.getText() + " from " + message.getFrom());
+	@MessageMapping("/chat/polish")
+	@SendTo("/topic/polish")
+	public Message sendMessagePolish(@Payload Message message) {
 		return message;
 	}
 
-	@MessageMapping("/chat.addUser")
-	@SendTo("/topic/public")
-	public Message addUser(@Payload Message Message,
-							   SimpMessageHeaderAccessor headerAccessor) {
-		// Add username in web socket session
-		headerAccessor.getSessionAttributes().put("username", Message.getFrom());
-		return Message;
+	@MessageMapping("/chat/spanish")
+	@SendTo("/topic/spanish")
+	public Message sendMessageSpanish(@Payload Message message) {
+		return message;
 	}
 
+	@MessageMapping("/chat/german")
+	@SendTo("/topic/german")
+	public Message sendMessageGerman(@Payload Message message) {
+		return message;
+	}
 }

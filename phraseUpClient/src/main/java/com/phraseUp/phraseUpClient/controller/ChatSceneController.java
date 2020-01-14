@@ -1,6 +1,7 @@
 package com.phraseUp.phraseUpClient.controller;
 
 import com.phraseUp.phraseUpClient.model.ChatMessage;
+import com.phraseUp.phraseUpClient.model.Language;
 import com.phraseUp.phraseUpClient.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -21,19 +22,26 @@ import java.lang.reflect.Type;
 
 public class ChatSceneController {
 
-	public class MyStompSessionHandler extends StompSessionHandlerAdapter {
+	class MyStompSessionHandler extends StompSessionHandlerAdapter {
 
 		final String URL = "ws://localhost:8091/ws";
 		private Logger logger = LogManager.getLogger(com.phraseUp.phraseUpClient.controller.ChatSceneController.class);
 		private StompSession session;
+		private final String subscribeUrlSuffix; // "/topic/public"
+		private final String sendUrlSuffix; // "/app/chat.sendMessage"
+
+		MyStompSessionHandler(String subscribeUrlSuffix, String sendUrlSuffix) {
+			this.subscribeUrlSuffix = subscribeUrlSuffix;
+			this.sendUrlSuffix = sendUrlSuffix;
+		}
 
 		@Override
 		public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
 			this.session = session;
 
 			logger.info("New session established : " + session.getSessionId());
-			session.subscribe("/topic/public", this);
-			logger.info("Subscribed to /topic/public");
+			session.subscribe(subscribeUrlSuffix, this);
+			logger.info("Subscribed to" + subscribeUrlSuffix);
 		}
 
 		@Override
@@ -55,18 +63,17 @@ public class ChatSceneController {
 		}
 
 		void sendMessage(ChatMessage msg) {
-			session.send("/app/chat.sendMessage", msg);
+			session.send(sendUrlSuffix, msg);
 		}
 	}
 
 	private static MyStompSessionHandler sessionHandler;
 	private static final String fxmlFileName = "/fxml/ChatScene.fxml";
 	private static ChatMessage messageStored;
-	private static User user;
+	private User user;
 
 	@FXML
 	public TextArea messageInput;
-
 	@FXML
 	public Text messagesText;
 
@@ -74,24 +81,20 @@ public class ChatSceneController {
 		return fxmlFileName;
 	}
 
-	static void setUser(User usr) {
+	void initializeChat(User usr, String language) {
 		user = usr;
-	}
-
-	public void initialize() {
 		WebSocketClient client = new StandardWebSocketClient();
 		WebSocketStompClient stompClient = new WebSocketStompClient(client);
-
 		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-		sessionHandler = new MyStompSessionHandler();
+		String subscribeUrlSuffix = "/topic/" + language;
+		String sendUrlSuffix = "/app/chat/" + language;
 
+		sessionHandler = new MyStompSessionHandler(subscribeUrlSuffix, sendUrlSuffix);
 		stompClient.connect(sessionHandler.URL, sessionHandler);
 	}
 
 	public void sendButtonHandler() {
-		System.out.println("wysyłam");
-
 		ChatMessage msg = new ChatMessage();
 		msg.setFrom(user.getUsername());
 		msg.setText(messageInput.getText());
@@ -101,12 +104,12 @@ public class ChatSceneController {
 
 	public void logOutButtonHandler() throws IOException {
 		System.out.println("You've been logged out!");
-		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
+		MainWindowController.changeScene(StartSceneController.class, StartSceneController.getFxmlFileName());
 	}
 
 	public void goBackButtonHandler() throws IOException {
 		System.out.println("Moving back...");
-		MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
+		MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
 	}
 
 	private void refreshChatView() {

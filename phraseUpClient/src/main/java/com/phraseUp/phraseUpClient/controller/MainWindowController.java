@@ -17,8 +17,15 @@ public class MainWindowController {
 		stage.show();
 	}
 
-	static void changeScene(String fxmlFileName) throws IOException {
-		Parent root = FXMLLoader.load(MainWindowController.class.getResource(fxmlFileName));
+	static FXMLLoader changeScene(String fxmlFileName) throws IOException {
+		FXMLLoader loader = new FXMLLoader(MainWindowController.class.getResource(fxmlFileName));
+		try {
+			Parent root = loader.load();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
 		stage.setScene(new Scene(root));
+		return loader;
 	}
 }

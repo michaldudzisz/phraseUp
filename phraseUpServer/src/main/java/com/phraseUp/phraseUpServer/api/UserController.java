@@ -41,7 +41,7 @@ public class UserController {
 
 	/*@GetMapping(path = "{username}")
 	public User getUserById(@PathVariable("id") UUID id) {
-		return userService.getUserById(id).orElse(null); // O TU można wyjątek(404)
+		return userService.getUserById(id).orElse(null);
 	}
 
 	@PutMapping(path = "{id}")
