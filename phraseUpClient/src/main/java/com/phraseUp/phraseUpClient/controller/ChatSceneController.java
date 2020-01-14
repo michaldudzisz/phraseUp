@@ -104,12 +104,12 @@ public class ChatSceneController {
 
 	public void logOutButtonHandler() throws IOException {
 		System.out.println("You've been logged out!");
-		MainWindowController.changeScene(StartSceneController.class, StartSceneController.getFxmlFileName());
+		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
 	}
 
 	public void goBackButtonHandler() throws IOException {
 		System.out.println("Moving back...");
-		MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
+		MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
 	}
 
 	private void refreshChatView() {

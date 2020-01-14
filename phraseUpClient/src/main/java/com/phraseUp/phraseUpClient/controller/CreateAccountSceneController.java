@@ -29,7 +29,7 @@ public class CreateAccountSceneController {
 	}
 
 	public void goBackButtonHandler() throws IOException {
-		MainWindowController.changeScene(StartSceneController.class, StartSceneController.getFxmlFileName());
+		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
 	}
 
 	public void initialize() {
@@ -63,7 +63,7 @@ public class CreateAccountSceneController {
 		User user = new User(username, password, lang);
 		if (HttpRequestController.sendAccountCreateRequest(user)) {
 			LoggedInSceneController.setUser(user);
-			MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
+			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
 		} else {
 			errorText.setText("Couldn't create an account. Probably there already exists account with that username.");
 			usernameInput.clear();

@@ -29,7 +29,7 @@ public class StartSceneController {
 
 		if (HttpRequestController.sendLogInRequest(log)) {
 			LoggedInSceneController.setUser(HttpRequestController.getUserInfo(log));
-			MainWindowController.changeScene(LoggedInSceneController.class, LoggedInSceneController.getFxmlFileName());
+			MainWindowController.changeScene(LoggedInSceneController.getFxmlFileName());
 		} else
 			errorText.setText("Wrong username or password.");
 
@@ -38,6 +38,6 @@ public class StartSceneController {
 	}
 
 	public void createAccButtonHandler() throws IOException {
-		MainWindowController.changeScene(CreateAccountSceneController.class, CreateAccountSceneController.getFxmlFileName());
+		MainWindowController.changeScene(CreateAccountSceneController.getFxmlFileName());
 	}
 }

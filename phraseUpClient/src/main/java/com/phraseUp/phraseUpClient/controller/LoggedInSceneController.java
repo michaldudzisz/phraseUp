@@ -59,23 +59,23 @@ public class LoggedInSceneController {
 	}
 
 	public void nativeLangChatButtonHandler() throws IOException {
-		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.class, ChatSceneController.getFxmlFileName());
+		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.getFxmlFileName());
 		ChatSceneController chatController = loader.getController();
 		chatController.initializeChat(user, user.getLanguage().toString());
 	}
 
 	public void logOutButtonHandler() throws IOException {
-		MainWindowController.changeScene(StartSceneController.class, StartSceneController.getFxmlFileName());
+		MainWindowController.changeScene(StartSceneController.getFxmlFileName());
 	}
 
 	public void foreignLangChatButton1Handler() throws IOException {
-		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.class, ChatSceneController.getFxmlFileName());
+		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.getFxmlFileName());
 		ChatSceneController chatController = loader.getController();
 		chatController.initializeChat(user, foreignLangChatButton1.getText());
 	}
 
 	public void foreignLangChatButton2Handler() throws IOException {
-		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.class, ChatSceneController.getFxmlFileName());
+		FXMLLoader loader = MainWindowController.changeScene(ChatSceneController.getFxmlFileName());
 		ChatSceneController chatController = loader.getController();
 		chatController.initializeChat(user, foreignLangChatButton2.getText());
 	}
