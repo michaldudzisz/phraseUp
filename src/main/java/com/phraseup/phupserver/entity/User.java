@@ -1,6 +1,7 @@
 package com.phraseup.phupserver.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -26,6 +27,12 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name= "language")
+    private String language;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Set<Chat> chats;
+
     // no-arg constructor required by Hiberante
     public User() {}
 
@@ -35,6 +42,10 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -75,6 +86,21 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+    public Set<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(Set<Chat> chats) {
+        this.chats = chats;
     }
 
     public void setEmail(String email) {
