@@ -11,7 +11,7 @@
 	<groupId>com.phraseup</groupId>
 	<artifactId>phupserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>phupserver</name>
+	<name>phraseUp</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -50,6 +50,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- JSON parses for language list -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

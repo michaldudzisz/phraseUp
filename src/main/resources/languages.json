@@ -1,5 +1,3 @@
-[
-  "polish",
-  "english",
-  "german"
-]
+{
+  "languages": ["polish", "english", "german"]
+}
