@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/users/")
 public class UserRestController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     public User getUsers(@PathVariable int userId) {
         User user = userService.getUserById(userId);
 
@@ -34,20 +34,20 @@ public class UserRestController {
         return user;
     }
 
-    @PostMapping("/users/")
+    @PostMapping("/")
     public User addUser(@RequestBody User user) {
         user.setId(0);
         userService.saveUser(user);
         return user;
     }
 
-    @PutMapping("/users/")
+    @PutMapping("/")
     public User updateUser(@RequestBody User user) {
         userService.saveUser(user);
         return user;
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/")
     public String deleteUser(@PathVariable int userId) {
         if (userService.getUserById(userId) == null)
             throw new RuntimeException("User with specified id not found:" + userId + ".");

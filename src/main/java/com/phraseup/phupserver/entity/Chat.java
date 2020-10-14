@@ -17,9 +17,9 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private int userId;
+    private User user;
 
-    @OneToMany(mappedBy = "chatId")
+    @OneToMany(mappedBy = "chat")
     private List<Message> messages;
 
     public Chat() {
@@ -29,7 +29,6 @@ public class Chat {
     public Chat(int id, String language, int userId) {
         this.id = id;
         this.language = language;
-        this.userId = userId;
     }
 
     public int getId() {
@@ -48,14 +47,6 @@ public class Chat {
         this.language = language;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public List<Message> getMessages() {
         return messages;
     }
@@ -69,7 +60,6 @@ public class Chat {
         return "Chat{" +
                 "id=" + id +
                 ", language='" + language + '\'' +
-                ", userId=" + userId +
                 ", messages=" + messages +
                 '}';
     }

@@ -14,4 +14,6 @@ public interface UserDAO {
     void saveUser(User user);
 
     void deleteUser(int id);
+
+    boolean authorizeLogInRequest(String username, String password);
 }

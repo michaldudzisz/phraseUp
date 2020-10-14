@@ -43,4 +43,17 @@ public class UserDAOJPAImpl implements UserDAO {
         query.executeUpdate();
     }
 
+    @Override
+    public boolean authorizeLogInRequest(String username, String password) {
+        Query query = entityManager.createQuery("from User where username=:username");
+        query.setParameter("username", username);
+
+        User user = (User) query.getSingleResult();
+
+        if (user == null)
+            return false;
+
+        return user.getPassword().equals(password);
+    }
+
 }

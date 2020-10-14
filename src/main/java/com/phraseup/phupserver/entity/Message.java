@@ -14,10 +14,9 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)
-    private int chatId;
+    private Chat chat;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false)
+    @Column(name = "sender_id")
     private int senderId;
 
     @Column(name = "sent_at")
@@ -32,9 +31,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(int id, int chatId, int senderId, Timestamp sentAt, String text) {
+    public Message(int id, int senderId, Timestamp sentAt, String text) {
         this.id = id;
-        this.chatId = chatId;
         this.senderId = senderId;
         this.sentAt = sentAt;
         this.text = text;
@@ -46,14 +44,6 @@ public class Message {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(int chatId) {
-        this.chatId = chatId;
     }
 
     public int getSenderId() {
@@ -92,7 +82,6 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", chatId=" + chatId +
                 ", senderId=" + senderId +
                 ", sentAt=" + sentAt +
                 ", text='" + text + '\'' +

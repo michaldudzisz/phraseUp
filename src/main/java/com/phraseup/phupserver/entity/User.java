@@ -30,7 +30,7 @@ public class User {
     @Column(name= "language")
     private String language;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Chat> chats;
 
     // no-arg constructor required by Hiberante
