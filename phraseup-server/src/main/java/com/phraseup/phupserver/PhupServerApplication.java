@@ -11,8 +11,8 @@ import java.io.IOException;
 public class PhupServerApplication {
 
 	public static void main(String[] args) throws IOException, ParseException {
-		SpringApplication.run(PhupServerApplication.class, args);
 		LanguagesStorage.loadLanguages("languages.json");
+		SpringApplication.run(PhupServerApplication.class, args);
 	}
 
 }
